@@ -1476,7 +1476,7 @@
         <div class="work-order">
           <div>
             <div class="eyebrow">TICKET NET-208 • LEVEL 2 (SPECIALIST)</div>
-            <p>AV endpoints on <b>VLAN 20</b> can ping locally on SW-01 but cannot reach their default gateway (10.20.0.1) across uplink trunk <b>Te1/1</b>. Inspect `show interfaces trunk`, add VLAN 20 to allowed VLANs, align Native VLAN 99, and verify gateway ping.</p>
+            <p>AV endpoints on <b>VLAN 20</b> can ping locally on SW-01 but cannot reach their default gateway (10.20.0.1) across uplink trunk <b>Te1/1</b>. Inspect <code>show interfaces trunk</code>, add VLAN 20 to allowed VLANs, align Native VLAN 99, and verify gateway ping.</p>
           </div>
           <button class="btn secondary" data-reset-bench="network_2">Reset Tier</button>
         </div>
@@ -1507,7 +1507,7 @@
                 </g>
 
                 <!-- Access Switch SW-01 -->
-                <g class="hotspot ${s.cliInspected ? "verified" : "fault"}" data-target="net2_sw" data-tip-title="Access Switch SW-01 Console" data-tip-body="Click with RJ45 Console tool to inspect `show interfaces trunk`.">
+                <g class="hotspot ${s.cliInspected ? "verified" : "fault"}" data-target="net2_sw" data-tip-title="Access Switch SW-01 Console" data-tip-body="Click with RJ45 Console tool to inspect show interfaces trunk.">
                   <rect class="hotspot-ring" x="145" y="246" width="470" height="106" rx="8"/>
                   <rect x="155" y="256" width="450" height="86" rx="6" fill="#182730" stroke="#4d6b7d"/>
                   <text x="174" y="280" fill="#edf5f5" font-family="DM Mono" font-size="11">SW-01 // ACCESS SWITCH (CONSOLE 9600 8N1)</text>
@@ -1564,7 +1564,7 @@
       <div class="work-order">
         <div>
           <div class="eyebrow">TICKET NET-315 • LEVEL 3 (ARCHITECT)</div>
-          <p>CPU utilization on SW-01 is at 99% due to a Layer 2 broadcast storm from an unauthorized hub loop on <b>Gi0/12</b>, and conference room port <b>Gi0/4</b> is stuck in `err-disabled` after a MAC sticky port-security trip. Isolate the loop with BPDU Guard, bounce Gi0/4, and verify 0% packet loss.</p>
+          <p>CPU utilization on SW-01 is at 99% due to a Layer 2 broadcast storm from an unauthorized hub loop on <b>Gi0/12</b>, and conference room port <b>Gi0/4</b> is stuck in <code>err-disabled</code> after a MAC sticky port-security trip. Isolate the loop with BPDU Guard, bounce Gi0/4, and verify 0% packet loss.</p>
         </div>
         <button class="btn secondary" data-reset-bench="network_3">Reset Tier</button>
       </div>
@@ -1643,7 +1643,7 @@
         <div class="work-order">
           <div>
             <div class="eyebrow">TICKET AV-105 • LEVEL 1 (TECHNICIAN)</div>
-            <p>Stagebox microphones are online in Dante Controller, but subscriptions to <b>DSP-CORE-01</b> fail due to sample-rate mismatch. Set both devices to <b>48 kHz</b>, validate with the Dante Clock/Rate tool, and subscribe TX 01 &amp; 02 to RX 01 &amp; 02.</p>
+            <p>Stagebox microphones are online in Dante Controller, but zero audio reaches <b>DSP-CORE-01</b> due to a sample-rate mismatch. Align both devices to <b>48 kHz</b> and subscribe TX 01 &amp; TX 02 to RX 01 &amp; RX 02.</p>
           </div>
           <button class="btn secondary" data-reset-bench="dante_1">Reset Tier</button>
         </div>
@@ -1842,9 +1842,10 @@
             <div class="mentor-msg ${s.mentorTone}">${s.mentorText}</div>
             <h3 style="margin-top:14px;">Forensic Checklist</h3>
             <div class="checklist">
-              <div class="chk-item ${s.vlansIsolated ? "done" : "current"}"><div class="chk-box">${s.vlansIsolated ? "✓" : "1"}</div><div>Isolate Primary &amp; Secondary into separate VLANs.</div></div>
-              <div class="chk-item ${s.igmpEnabled ? "done" : s.vlansIsolated ? "current" : ""}"><div class="chk-box">${s.igmpEnabled ? "✓" : "2"}</div><div>Enable <b>IGMP Snooping &amp; Querier</b> on AV switch.</div></div>
-              <div class="chk-item ${s.verifiedZeroDrop ? "done" : s.igmpEnabled ? "current" : ""}"><div class="chk-box">${s.verifiedZeroDrop ? "✓" : "3"}</div><div>Convert flow to <b>Unicast</b> &amp; verify zero packet drops.</div></div>
+              <div class="chk-item ${s.stpInspected ? "done" : "current"}"><div class="chk-box">${s.stpInspected ? "✓" : "1"}</div><div>Inspect <b>SW-01 Console</b> (<code>show spanning-tree</code>).</div></div>
+              <div class="chk-item ${s.bpduGuardEnabled ? "done" : s.stpInspected ? "current" : ""}"><div class="chk-box">${s.bpduGuardEnabled ? "✓" : "2"}</div><div>Enable <b>BPDU Guard</b> on <b>Gi0/12</b> to stop broadcast storm.</div></div>
+              <div class="chk-item ${s.portCleared ? "done" : s.bpduGuardEnabled ? "current" : ""}"><div class="chk-box">${s.portCleared ? "✓" : "3"}</div><div>Bounce <b>Gi0/4</b> (<code>shutdown</code> / <code>no shutdown</code>) to clear err-disable.</div></div>
+              <div class="chk-item ${s.pingVerified ? "done" : s.portCleared ? "current" : ""}"><div class="chk-box">${s.pingVerified ? "✓" : "4"}</div><div>Verify 0% packet loss on <b>Gi0/4</b> with Packet Analyzer.</div></div>
             </div>
           </div>
         </div>
@@ -2450,7 +2451,7 @@
     if (target.startsWith("net2_")) {
       const s = net2;
       if (target === "net2_sw") {
-        if (selectedTool === "console") { s.cliInspected = true; s.mentorTone = "warn"; s.mentorText = "`show interfaces trunk` shows VLAN 20 is missing from allowed VLANs and Native VLAN is 1 (Core is 99). Select 10,20,99 and Native 99, then click Trunk Te1/1 with IOS Trunk Config."; s.cliLog = "SW-01# show interfaces trunk\nPort   Mode   Encap   Status    Native\nTe1/1  on     802.1q  trunking  1 (MISMATCH!)\nVlans allowed on trunk: 10,99"; recordAction(true); }
+        if (selectedTool === "console") { s.cliInspected = true; s.mentorTone = "warn"; s.mentorText = "show interfaces trunk shows VLAN 20 is missing from allowed VLANs and Native VLAN is 1 (Core is 99). Select 10,20,99 and Native 99, then click Trunk Te1/1 with IOS Trunk Config."; s.cliLog = "SW-01# show interfaces trunk\nPort   Mode   Encap   Status    Native\nTe1/1  on     802.1q  trunking  1 (MISMATCH!)\nVlans allowed on trunk: 10,99"; recordAction(true); }
         else { s.mentorTone = "warn"; s.mentorText = "Select RJ45 Console cable to inspect SW-01."; recordAction(false); }
       } else if (target === "net2_trunk") {
         if (selectedTool === "cli" && s.cliInspected) {
@@ -2482,7 +2483,7 @@
         else { s.mentorTone = "warn"; s.mentorText = "Connect RJ45 Console cable to inspect Spanning Tree."; recordAction(false); }
       } else if (target === "net3_gi12") {
         if (selectedTool === "bpdu" && s.stpInspected) {
-          s.bpduGuardEnabled = true; s.mentorTone = "good"; s.mentorText = "BPDU Guard tripped and blocked Gi0/12—Switch CPU dropped from 99% to 6%! Now bounce Gi0/4 (`shutdown` / `no shutdown`) with the Port Bounce Tool.";
+          s.bpduGuardEnabled = true; s.mentorTone = "good"; s.mentorText = "BPDU Guard tripped and blocked Gi0/12—Switch CPU dropped from 99% to 6%! Now bounce Gi0/4 (shutdown / no shutdown) with the Port Bounce Tool.";
           s.cliLog = "SW-01(config-if)# spanning-tree bpduguard enable\n%SPANTREE-2-BLOCK_BPDUGUARD: Received BPDU on Gi0/12. Disabling port.";
           recordAction(true);
         } else { s.mentorTone = "warn"; s.mentorText = "Inspect CLI first, then apply BPDU Guard Tool to Gi0/12."; recordAction(false); }
