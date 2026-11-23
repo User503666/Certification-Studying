@@ -1,0 +1,10 @@
+# Summer's Web tab runs trunk on a free port it picks. This port is for a run by hand.
+[serve]
+addresses = ["127.0.0.1"]
+port = 8910
+
+[build]
+dist = ".web/dist"
+
+[watch]
+watch = ["index.html", "app.js", "styles.css"]

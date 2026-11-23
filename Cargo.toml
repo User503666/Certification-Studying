@@ -1,0 +1,21 @@
+# Build shim only. The game is the plain HTML/CSS/JS in this folder (index.html,
+# app.js, styles.css); this crate compiles to an empty wasm module that does nothing.
+[package]
+name = "it-av-technical-lab"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.99"
+resolver = "3"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "=0.2.130"
+
+[profile.dev]
+debug = false
+
+[profile.release]
+opt-level = "s"
+lto = true

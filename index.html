@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#091015">
+  <title>IT &amp; AV Technical Lab — Photorealistic Field Engineering Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link data-trunk rel="copy-file" href="styles.css">
+  <link data-trunk rel="copy-file" href="app.js">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-badge">
+      <span class="badge-led"></span>
+      SIM//LAB
+    </div>
+    <div>
+      <div class="brand-title">IT &amp; AV TECHNICAL LAB <span class="ver-pill">PRO v3.0</span></div>
+      <div class="brand-sub">PHOTOREALISTIC FIELD ENGINEERING &amp; CERTIFICATION SIMULATOR</div>
+    </div>
+  </div>
+  <div class="hud-stats">
+    <div class="hud-pill">CERT MODULES: <b id="hud-cases">0/20</b></div>
+    <div class="hud-pill">PRECISION: <b id="hud-score">100%</b></div>
+    <div class="hud-pill warn">SAFETY/PROC FLAGS: <b id="hud-flags">0</b></div>
+    <button class="btn-quiet" id="btn-audio-toggle" title="Toggle Web Audio Diagnostic Sound Effects">🔊 SFX: ON</button>
+    <button class="btn-quiet" id="btn-reset-all">Reset Lab Data</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-heading">Field Dispatch</div>
+    <button class="nav-btn active" data-view="overview">
+      <span class="nav-left">⌂ &nbsp;Dispatch Overview</span>
+    </button>
+
+    <div class="side-heading" style="margin-top:8px;">Certification Tracks (4 Levels Each)</div>
+    <button class="nav-btn" data-view="pc">
+      <span class="nav-left">▣ &nbsp;01. CompTIA A+ (220-1201/1202)</span>
+      <span class="nav-tag" id="tag-pc">0/4</span>
+    </button>
+    <button class="nav-btn" data-view="network">
+      <span class="nav-left">⌘ &nbsp;02. CompTIA Network+ (N10-009)</span>
+      <span class="nav-tag" id="tag-network">0/4</span>
+    </button>
+    <button class="nav-btn" data-view="dante">
+      <span class="nav-left">♫ &nbsp;03. Audinate Dante (L1–L3)</span>
+      <span class="nav-tag" id="tag-dante">0/4</span>
+    </button>
+    <button class="nav-btn" data-view="av">
+      <span class="nav-left">▤ &nbsp;04. AVIXA CTS / CTS-D</span>
+      <span class="nav-tag" id="tag-av">0/4</span>
+    </button>
+    <button class="nav-btn" data-view="qs">
+      <span class="nav-left">◉ &nbsp;05. Q-SYS Level 1 &amp; 2</span>
+      <span class="nav-tag" id="tag-qs">0/4</span>
+    </button>
+
+    <div class="side-heading" style="margin-top:8px;">Study &amp; Verification</div>
+    <button class="nav-btn" data-view="glossary">
+      <span class="nav-left">📖 &nbsp;Engineering Reference</span>
+    </button>
+    <button class="nav-btn" data-view="exam">
+      <span class="nav-left">📝 &nbsp;20-Q Mastery Exam</span>
+    </button>
+
+    <div class="side-card">
+      <strong>Field Engineering Protocol</strong>
+      1. Select a diagnostic instrument or cable from the illuminated tool dock.<br>
+      2. Click the exact physical connector, IC, port, or DSP block on the bench.<br>
+      3. Obey ESD safety, OSI Layer 1-to-7 methodology, and ≥80% accuracy to pass each certification objective.
+    </div>
+  </aside>
+
+  <main class="workspace" id="workspace"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  IT &amp; AV Technical Lab Pro v3.0 — Comprehensive hands-on field simulator covering CompTIA A+, CompTIA Network+, Audinate Dante, AVIXA CTS, and Q-SYS Level 1 &amp; 2 domains. Educational simulation; not affiliated with certifying vendors.
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
